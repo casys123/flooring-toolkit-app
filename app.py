@@ -1,52 +1,32 @@
-# app.py - Streamlit Flooring Market Toolkit (with Selenium for Permit Scraping)
+# app.py - Streamlit Flooring Market Toolkit (Mocked for Cloud)
 
 import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-import time
-import tempfile
 
 st.set_page_config(page_title="Flooring Market Toolkit", layout="wide")
 st.title("📊 Flooring Market Penetration Toolkit")
 
 # ------------------ Module 1: Lead Generation Engine ------------------
 
-st.header("1️⃣ Permit-Based Lead Generator")
+st.header("1️⃣ Permit-Based Lead Generator (Mocked)")
 
 @st.cache_data
+def load_mock_permit_data():
+    return pd.DataFrame({
+        "Property Address": ["123 Main St", "456 Ocean Dr"],
+        "Owner Contact": ["John Doe", "Jane Smith"],
+        "Project Type": ["Remodel", "New Construction"],
+        "Square Footage": [1500, 2400],
+        "Permit Issue Date": ["2024-01-15", "2024-02-20"],
+        "Contractor Name": ["ABC Floors", "XYZ Contractors"]
+    })
 
-def scrape_permit_data_with_selenium(url):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(url)
-    time.sleep(5)  # wait for JS to load (adjust as needed)
-
-    page_source = driver.page_source
-    driver.quit()
-
-    # Return raw HTML for inspection (since true scraping structure is unknown)
-    return page_source, pd.DataFrame()
-
-if st.button("Scrape Permits from Miami-Dade & Broward"):
-    miami_html, miami_df = scrape_permit_data_with_selenium("https://www.miamidade.gov/permits")
-    broward_html, broward_df = scrape_permit_data_with_selenium("https://www.broward.org/Regulation/Permits")
-    combined_df = pd.concat([miami_df, broward_df], ignore_index=True)
-
-    if not combined_df.empty and 'Project Type' in combined_df.columns:
-        flooring_df = combined_df[combined_df['Project Type'].str.contains("floor|remodel|renovation|construction", case=False, na=False)]
-        st.dataframe(flooring_df)
-    else:
-        st.warning("Column 'Project Type' not found or no data scraped. Inspect HTML to refine logic.")
-        st.subheader("🔍 HTML Debug Preview")
-        st.code(miami_html[:3000], language='html')
+if st.button("Load Permit Leads (Sample)"):
+    mock_df = load_mock_permit_data()
+    flooring_df = mock_df[mock_df['Project Type'].str.contains("floor|remodel|renovation|construction", case=False, na=False)]
+    st.dataframe(flooring_df)
 
 # ------------------ Module 2: Competitive Intelligence Dashboard ------------------
 
