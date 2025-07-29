@@ -31,17 +31,20 @@ def scrape_permit_data(county_url):
                 "Permit Issue Date": cells[4].text.strip(),
                 "Contractor Name": cells[5].text.strip(),
             })
-    return pd.DataFrame(permit_data)
+    return soup.prettify(), pd.DataFrame(permit_data)
 
 if st.button("Scrape Permits from Miami-Dade & Broward"):
-    miami_df = scrape_permit_data("https://www.miamidade.gov/permits")
-    broward_df = scrape_permit_data("https://www.broward.org/Regulation/Permits")
+    miami_html, miami_df = scrape_permit_data("https://www.miamidade.gov/permits")
+    broward_html, broward_df = scrape_permit_data("https://www.broward.org/Regulation/Permits")
     combined_df = pd.concat([miami_df, broward_df], ignore_index=True)
+
     if 'Project Type' in combined_df.columns:
         flooring_df = combined_df[combined_df['Project Type'].str.contains("floor|remodel|renovation|construction", case=False, na=False)]
         st.dataframe(flooring_df)
     else:
         st.warning("Column 'Project Type' not found in scraped data. Please verify the website structure.")
+        st.subheader("🔍 HTML Debug Preview")
+        st.code(miami_html[:3000], language='html')
 
 # ------------------ Module 2: Competitive Intelligence Dashboard ------------------
 
