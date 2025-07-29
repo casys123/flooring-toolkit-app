@@ -1,16 +1,26 @@
-# app.py - Streamlit Flooring Market Toolkit (Mocked for Cloud)
+# app.py - Miami Master Flooring Market Toolkit
 
 import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
 
-st.set_page_config(page_title="Flooring Market Toolkit", layout="wide")
-st.title("📊 Flooring Market Penetration Toolkit")
+st.set_page_config(
+    page_title="Miami Master Flooring | Market Toolkit",
+    layout="wide",
+    page_icon="📐"
+)
+
+st.title("🏢 Miami Master Flooring Sales Accelerator")
+st.markdown("""
+Welcome to the Miami Master Flooring Market Toolkit. 
+We specialize in premium **vinyl**, **LVT**, and **carpet tile** solutions for commercial and residential properties in South Florida.
+Explore local permit leads, competitor insights, heatmaps, and email outreach tools to grow your business.
+""")
 
 # ------------------ Module 1: Lead Generation Engine ------------------
 
-st.header("1️⃣ Permit-Based Lead Generator (Mocked)")
+st.header("1️⃣ Permit-Based Lead Generator (Mocked Data)")
 
 @st.cache_data
 def load_mock_permit_data():
@@ -31,7 +41,7 @@ if st.button("Load Permit Leads (Sample)"):
 # ------------------ Module 2: Competitive Intelligence Dashboard ------------------
 
 st.header("2️⃣ Competitive Intelligence (Static Example)")
-st.markdown("⚠️ Google Maps API integration is currently placeholder. Replace with real data.")
+st.markdown("Compare your business with other **vinyl, LVT, and carpet tile** contractors nearby.")
 
 competitors_sample = pd.DataFrame({
     "Name": ["ABC Floors", "Miami Tile Co", "Luxury Plank Pro"],
@@ -43,7 +53,8 @@ st.dataframe(competitors_sample)
 
 # ------------------ Module 3: Hyperlocal Targeting System ------------------
 
-st.header("3️⃣ Hyperlocal Targeting Heatmap")
+st.header("3️⃣ High-Potential Neighborhoods Heatmap")
+st.markdown("Target homes built before 1980 and areas with recent property sales and high income.")
 
 def get_census_data():
     return pd.DataFrame({
@@ -69,12 +80,14 @@ folium_static(m)
 
 # ------------------ Module 4: Automated Outreach Module ------------------
 
-st.header("4️⃣ Automated Outreach Emails")
+st.header("4️⃣ Automated Email Templates")
+
+st.markdown("Use these emails to target property owners and managers looking for durable, modern flooring.")
 
 templates = {
-    "pre-1980": "Subject: Restore the Charm of Your Classic Home\n\nOur Historical Home Preservation Flooring Package is designed for timeless beauty and durability...",
-    "luxury": "Subject: Premium Designer Flooring for Elegant Homes\n\nDiscover our high-end flooring options crafted for luxury living...",
-    "flood_zone": "Subject: Protect Your Home with Water-Resistant Flooring\n\nIdeal for flood-prone areas, our water-resistant systems offer peace of mind and style..."
+    "pre-1980": "Subject: Restore the Charm of Your Classic Property\n\nMiami Master Flooring offers stylish vinyl and carpet tile flooring ideal for updating historic homes with modern, durable materials.",
+    "luxury": "Subject: Premium Designer Flooring for Elegant Spaces\n\nElevate your property with high-end luxury vinyl tile and carpet tile flooring from Miami Master Flooring — trusted by developers across South Florida.",
+    "flood_zone": "Subject: Flooring That Withstands Water & Time\n\nOur water-resistant vinyl and carpet tile solutions are perfect for flood-prone areas in Miami-Dade and Broward counties."
 }
 
 def generate_email(template_key, recipient_name):
