@@ -1,4 +1,6 @@
+[server]
+headless = true
+enableCORS = false
+
 [theme]
-primaryColor="#6c63ff"
-backgroundColor="#ffffff"
-secondaryBackgroundColor="#f4f4f4"
+base="light"
